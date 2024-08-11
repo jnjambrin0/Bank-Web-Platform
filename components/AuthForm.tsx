@@ -18,6 +18,7 @@ const AuthForm = ({ type }: { type: string }) => {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
   const formSchema = authFormSchema(type);
 
   // 1. Define your form.
@@ -33,18 +34,18 @@ const AuthForm = ({ type }: { type: string }) => {
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     try {
-      if (type === "sing-up") {
+      if (type === "sign-up") {
         const newUser = await signUp(data);
         setUser(newUser);
       }
-      if (type === "sing-in") {
-        const response = await signIn({
+      if (type === "sign-in") {
+        /*const response = await signIn({
           email: data.email,
           password: data.password,
         });
         if (response) {
           router.push("/");
-        }
+        }*/
       }
     } catch (error) {
       console.error(error);
