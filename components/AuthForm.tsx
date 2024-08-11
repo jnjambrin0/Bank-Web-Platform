@@ -44,6 +44,7 @@ const AuthForm = ({ type }: { type: string }) => {
           password: data.password,
         });
         if (response) {
+          console.log("Response: ", response);
           router.push("/");
         }
       }
