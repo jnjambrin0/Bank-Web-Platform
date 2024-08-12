@@ -7,6 +7,7 @@ import {
 } from "react-plaid-link";
 import { StyledString } from "next/dist/build/swc";
 import { useRouter } from "next/navigation";
+import { createLinkToken } from "@/lib/actions/user.actions";
 
 const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
   const router = useRouter();
@@ -15,12 +16,12 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
 
   useEffect(() => {
     const getLinkToken = async () => {
-      //const data = await createLinkToken(user);
-      // setToken(data?.link_token);
+      const data = await createLinkToken(user);
+      setToken(data?.link_token);
     };
 
     getLinkToken();
-  }, []);
+  }, [user]);
 
   const onSuccess = useCallback<PlaidLinkOnSuccess>(
     async (public_token: string) => {
