@@ -14,6 +14,7 @@ import { plaidClient } from "../plaid";
 import { revalidatePath } from "next/cache";
 import { addFundingSource, createDwollaCustomer } from "./dwolla.actions";
 import { use } from "react";
+import { get } from "http";
 
 const {
   APPWRITE_DATABASE_ID: DATABASE_ID,
@@ -21,14 +22,40 @@ const {
   APPWRITE_BANK_COLLECTION_ID: BANK_COLLECTION_ID,
 } = process.env;
 
+export const getUserInfo = async ({ userId }: getUserInfoProps) => {
+  try {
+    const { database } = await createAdminClient();
+
+    const user = await database.listDocuments(
+      DATABASE_ID!,
+      BANK_COLLECTION_ID!,
+      [Query.equal("userId", [userId])]
+    );
+
+    return parseStringify(user.documents[0]);
+  } catch (error) {
+    console.error("An error occurred while getting the user:", error);
+  }
+};
+
 export const signIn = async ({ email, password }: signInProps) => {
   try {
     const { account } = await createAdminClient();
-    const response = await account.createEmailPasswordSession(email, password);
 
-    console.log("Response", response);
+    const session = await account.createEmailPasswordSession(email, password);
 
-    return parseStringify(response);
+    cookies().set("appwrite-session", session.secret, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "strict",
+      secure: true,
+    });
+
+    const user = await getUserInfo({ userId: session.userId });
+
+    console.log("Response", user);
+
+    return parseStringify(user);
   } catch (error) {
     console.error("Error", error);
   }
@@ -93,7 +120,11 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
 export async function getLoggedInUser() {
   try {
     const { account } = await createSessionClient();
-    const user = await account.get();
+
+    const result = await account.get();
+
+    const user = await getUserInfo({ userId: result.$id });
+
     return parseStringify(user);
   } catch (error) {
     return null;
