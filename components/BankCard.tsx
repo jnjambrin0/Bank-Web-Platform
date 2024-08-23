@@ -8,6 +8,7 @@ const BankCard = ({
   account,
   userName,
   showBalance = true,
+  type,
 }: CreditCardProps) => {
   return (
     <div className="flex flex-col">
@@ -37,6 +38,7 @@ const BankCard = ({
         </div>
 
         <div className="bank-card_icon">
+          {}
           <Image src="/icons/Paypass.svg" width={20} height={24} alt="pay" />
           <Image
             src="/icons/mastercard.svg"

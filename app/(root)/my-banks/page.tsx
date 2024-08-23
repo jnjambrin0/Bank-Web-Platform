@@ -23,6 +23,7 @@ const MyBanks = async () => {
                   key={accounts.id}
                   account={a}
                   userName={loggedIn?.firstName}
+                  type="Bank"
                 />
               ))}
           </div>
