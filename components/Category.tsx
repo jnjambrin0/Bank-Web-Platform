@@ -15,6 +15,13 @@ export const Category = ({ category }: CategoryProps) => {
   } = topCategoryStyles[category.name as keyof typeof topCategoryStyles] ||
   topCategoryStyles.default;
 
+  console.log(
+    "category count",
+    category.count,
+    " category total count",
+    category.totalCount
+  );
+
   return (
     <div className={cn("gap-[18px] flex p-4 rounded-xl", bg)}>
       <figure className={cn("flex-center size-10 rounded-full", circleBg)}>
@@ -27,7 +34,7 @@ export const Category = ({ category }: CategoryProps) => {
         </div>
         <Progress
           value={(category.count / category.totalCount) * 100}
-          className={cn("h-2 w-full", progressBg)}
+          className={cn("h-2 w-full", progressBg, indicator)}
           indicatorClassName={cn("h-2 w-full", indicator)}
         />
       </div>

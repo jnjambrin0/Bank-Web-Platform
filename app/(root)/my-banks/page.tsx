@@ -1,5 +1,7 @@
 import BankCard from "@/components/BankCard";
+import BankCard2 from "@/components/BankCard2";
 import HeaderBox from "@/components/HeaderBox";
+import { Progress } from "@/components/ui/progress";
 import { getAccounts } from "@/lib/actions/bank.actions";
 import { getLoggedInUser } from "@/lib/actions/user.actions";
 import React from "react";
@@ -19,10 +21,10 @@ const MyBanks = async () => {
           <div className="flex flex-wrap gap-6">
             {accounts &&
               accounts.data.map((a: Account) => (
-                <BankCard
+                <BankCard2
                   key={accounts.id}
                   account={a}
-                  userName={loggedIn?.firstName}
+                  userName={`${loggedIn?.firstName} ${loggedIn?.lastName}`}
                   type="Bank"
                 />
               ))}
