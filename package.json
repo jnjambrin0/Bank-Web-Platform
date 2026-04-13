@@ -36,6 +36,9 @@
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.8"
   },
+  "overrides": {
+    "axios": "^1.15.0"
+  },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
